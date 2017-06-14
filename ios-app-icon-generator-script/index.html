@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--[if lte IE 9]>
+        <script type="text/javascript">
+            window.location = "/browser-compatibility";
+        </script>
+        <![endif]-->
+        <title>iOS App Icon Generator Script for Xcode</title>
+        <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+
+<link rel="apple-touch-icon" sizes="57x57" href="../assets/img/icons/apple/apple-touch-icon-57x57.png?v=gAAmLMYXpw">
+<link rel="apple-touch-icon" sizes="60x60" href="../assets/img/icons/apple/apple-touch-icon-60x60.png?v=gAAmLMYXpw">
+<link rel="apple-touch-icon" sizes="72x72" href="../assets/img/icons/apple/apple-touch-icon-72x72.png?v=gAAmLMYXpw">
+<link rel="apple-touch-icon" sizes="76x76" href="../assets/img/icons/apple/apple-touch-icon-76x76.png?v=gAAmLMYXpw">
+<link rel="apple-touch-icon" sizes="114x114" href="../assets/img/icons/apple/apple-touch-icon-114x114.png?v=gAAmLMYXpw">
+<link rel="apple-touch-icon" sizes="120x120" href="../assets/img/icons/apple/apple-touch-icon-120x120.png?v=gAAmLMYXpw">
+<link rel="apple-touch-icon" sizes="144x144" href="../assets/img/icons/apple/apple-touch-icon-144x144.png?v=gAAmLMYXpw">
+<link rel="apple-touch-icon" sizes="152x152" href="../assets/img/icons/apple/apple-touch-icon-152x152.png?v=gAAmLMYXpw">
+<link rel="apple-touch-icon" sizes="180x180" href="../assets/img/icons/apple/apple-touch-icon-180x180.png?v=gAAmLMYXpw">
+<link rel="icon" type="image/png" href="../assets/img/icons/favicon/favicon-32x32.png?v=gAAmLMYXpw" sizes="32x32">
+<link rel="icon" type="image/png" href="../assets/img/icons/favicon/favicon-194x194.png?v=gAAmLMYXpw" sizes="194x194">
+<link rel="icon" type="image/png" href="../assets/img/icons/favicon/favicon-96x96.png?v=gAAmLMYXpw" sizes="96x96">
+<link rel="icon" type="image/png" href="../assets/img/icons/android/android-chrome-192x192.png?v=gAAmLMYXpw" sizes="192x192">
+<link rel="icon" type="image/png" href="../assets/img/icons/favicon/favicon-16x16.png?v=gAAmLMYXpw" sizes="16x16">
+<link rel="manifest" href="../assets/img/icons/android/manifest.json?v=gAAmLMYXpw">
+<link rel="mask-icon" href="../assets/img/icons/safari/safari-pinned-tab.svg?v=gAAmLMYXpw" color="#56817a">
+<link rel="shortcut icon" href="../assets/img/icons/favicon/favicon.ico?v=gAAmLMYXpw">
+<meta name="msapplication-TileColor" content="#56817a">
+<meta name="msapplication-TileImage" content="/assets/img/icons/microsoft/mstile-144x144.png?v=gAAmLMYXpw">
+<meta name="msapplication-config" content="/assets/img/icons/microsoft/browserconfig.xml?v=gAAmLMYXpw">
+<meta name="theme-color" content="#56817a">
+        <link rel="stylesheet" type="text/css" href="../assets/css/caffeine-theme.css?v=520699b0ff" />
+        <style>
+@font-face{font-family:Raleway;font-weight:400;font-style:normal;src:local('Raleway'),local('Raleway-regular'),url(https://fonts.gstatic.com/s/raleway/v10/QAUlVt1jXOgQavlW5wEfxQLUuEpTyoUstqEm5AMlJo4.woff2) format('woff2'),url(https://fonts.gstatic.com/s/raleway/v10/cIFypx4yrWPDz3zOxk7hIQLUuEpTyoUstqEm5AMlJo4.woff) format('woff'),url(https://fonts.gstatic.com/s/raleway/v10/bIcY3_3JNqUVRAQQRNVteQ.ttf) format('truetype'),url(https://fonts.gstatic.com/l/font?kit=IP_NSg73bUZGuyb3zF6qcQ&skey=30a27f2564731c64&v=v10#Raleway) format('svg')}@font-face{font-family:Raleway;font-weight:700;font-style:normal;src:local('Raleway Bold'),local('Raleway-700'),url(https://fonts.gstatic.com/s/raleway/v10/JbtMzqLaYbbbCL9X6EvaIwzyDMXhdD8sAj6OAJTFsBI.woff2) format('woff2'),url(https://fonts.gstatic.com/s/raleway/v10/JbtMzqLaYbbbCL9X6EvaI73hpw3pgy2gAi-Ip7WPMi0.woff) format('woff'),url(https://fonts.gstatic.com/s/raleway/v10/JbtMzqLaYbbbCL9X6EvaIy3USBnSvpkopQaUR-2r7iU.ttf) format('truetype'),url(https://fonts.gstatic.com/l/font?kit=JbtMzqLaYbbbCL9X6EvaI6WUboTb-jS2tyCOQMtm97g&skey=e507c3e2b7915ad1&v=v10#Raleway) format('svg')}@font-face{font-family:'Roboto Slab';font-weight:300;font-style:normal;src:local('Roboto Slab Light'),local('Roboto-Slab-300'),url(https://fonts.gstatic.com/s/robotoslab/v6/dazS1PrQQuCxC3iOAJFEJdTIkQYohD4BpHvJ3NvbHoA.woff2) format('woff2'),url(https://fonts.gstatic.com/s/robotoslab/v6/dazS1PrQQuCxC3iOAJFEJfR_54zmj3SbGZQh3vCOwvY.woff) format('woff'),url(https://fonts.gstatic.com/s/robotoslab/v6/dazS1PrQQuCxC3iOAJFEJbfB31yxOzP-czbf6AAKCVo.ttf) format('truetype'),url(https://fonts.gstatic.com/l/font?kit=dazS1PrQQuCxC3iOAJFEJT4dnM32POWavC8T_whbZeI&skey=5b48fccf0dc70db6&v=v6#RobotoSlab) format('svg')}@font-face{font-family:'Roboto Slab';font-weight:400;font-style:normal;src:local('Roboto Slab Regular'),local('Roboto-Slab-regular'),url(https://fonts.gstatic.com/s/robotoslab/v6/y7lebkjgREBJK96VQi37Zogp9Q8gbYrhqGlRav_IXfk.woff2) format('woff2'),url(https://fonts.gstatic.com/s/robotoslab/v6/y7lebkjgREBJK96VQi37ZrrIa-7acMAeDBVuclsi6Gc.woff) format('woff'),url(https://fonts.gstatic.com/s/robotoslab/v6/y7lebkjgREBJK96VQi37Zp0EAVxt0G0biEntp43Qt6E.ttf) format('truetype'),url(https://fonts.gstatic.com/l/font?kit=y7lebkjgREBJK96VQi37ZnNsigHlcrQGNV8nkUSFQfc&skey=a9ad6a4717e923f0&v=v6#RobotoSlab) format('svg')}
+</style>        <link rel="canonical" href="http://dorukgezici.github.io/ios-app-icon-generator-script/" />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+    <link rel="amphtml" href="http://dorukgezici.github.io/ios-app-icon-generator-script/amp/" />
+    
+    <meta property="og:site_name" content="Doruk Gezici | DGtech" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="iOS App Icon Generator Script for Xcode" />
+    <meta property="og:description" content="Hello fellow iOS Developers! Today I decided to stop using makeappicon.com to generate my app icons. Instead, I coded a small script in Python which works like a charm. You put the image you want to use as your app icon in the same directory as the script and" />
+    <meta property="og:url" content="http://dorukgezici.github.io/ios-app-icon-generator-script/" />
+    <meta property="og:image" content="http://dorukgezici.com/wp-content/uploads/2016/07/python-logo.png" />
+    <meta property="article:published_time" content="2016-07-17T23:55:26.000Z" />
+    <meta property="article:modified_time" content="2017-06-13T23:54:32.000Z" />
+    <meta property="article:tag" content="Icon Generator" />
+    <meta property="article:tag" content="Python" />
+    <meta property="article:tag" content="Xcode" />
+    
+    <meta property="article:publisher" content="https://www.facebook.com/dorukgezici96" />
+    <meta property="article:author" content="https://www.facebook.com/dorukgezici96" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="iOS App Icon Generator Script for Xcode" />
+    <meta name="twitter:description" content="Hello fellow iOS Developers! Today I decided to stop using makeappicon.com to generate my app icons. Instead, I coded a small script in Python which works like a charm. You put the image you want to use as your app icon in the same directory as the script and" />
+    <meta name="twitter:url" content="http://dorukgezici.github.io/ios-app-icon-generator-script/" />
+    <meta name="twitter:image" content="http://dorukgezici.com/wp-content/uploads/2016/07/python-logo.png" />
+    <meta name="twitter:label1" content="Written by" />
+    <meta name="twitter:data1" content="Doruk Gezici" />
+    <meta name="twitter:label2" content="Filed under" />
+    <meta name="twitter:data2" content="Icon Generator, Python, Xcode" />
+    <meta name="twitter:site" content="@derektraveller" />
+    <meta name="twitter:creator" content="@derektraveller" />
+    <meta property="og:image:width" content="601" />
+    <meta property="og:image:height" content="203" />
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "Doruk Gezici | DGtech",
+        "logo": "http://dorukgezici.github.io/content/images/2017/06/pp-1.jpg"
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Doruk Gezici",
+        "image": {
+            "@type": "ImageObject",
+            "url": "//www.gravatar.com/avatar/884a72c8060dbd80cf7c5ee907053ed7?s=250&d=mm&r=x",
+            "width": 250,
+            "height": 250
+        },
+        "url": "http://dorukgezici.github.io/author/dorukgezici/",
+        "sameAs": [
+            "http://dorukgezici.com",
+            "https://www.facebook.com/dorukgezici96",
+            "https://twitter.com/derektraveller"
+        ],
+        "description": "iOS &amp; Software Developer"
+    },
+    "headline": "iOS App Icon Generator Script for Xcode",
+    "url": "http://dorukgezici.github.io/ios-app-icon-generator-script/",
+    "datePublished": "2016-07-17T23:55:26.000Z",
+    "dateModified": "2017-06-13T23:54:32.000Z",
+    "image": {
+        "@type": "ImageObject",
+        "url": "http://dorukgezici.com/wp-content/uploads/2016/07/python-logo.png",
+        "width": 601,
+        "height": 203
+    },
+    "keywords": "Icon Generator, Python, Xcode",
+    "description": "Hello fellow iOS Developers! Today I decided to stop using makeappicon.com to generate my app icons. Instead, I coded a small script in Python which works like a charm. You put the image you want to use as your app icon in the same directory as the script and",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "http://dorukgezici.github.io"
+    }
+}
+    </script>
+
+    <meta name="generator" content="Ghost 0.11" />
+    <link rel="alternate" type="application/rss+xml" title="Doruk Gezici | DGtech" href="http://dorukgezici.github.io/rss/" />
+        <script type="text/javascript">
+try{var storage=window.sessionStorage;storage&&"1"==storage.getItem("fonts-loaded")&&(window.document.documentElement.className+=" fonts-loaded")}catch(e){}
+</script>    </head>
+    <body class="post-template tag-icon-generator tag-python tag-xcode">
+        <header id="default-nav-header" class="nav-header nav-header-fixed animated">
+    <a id="home-button" href="http://dorukgezici.github.io">
+        <img src="../assets/img/icons/icon.png?v=520699b0ff" alt="Doruk Gezici | DGtech icon" class="icon rounded hvr-buzz-out" />
+      </a>
+    <a class="tags-button right">
+        <i class="fa fa-search hvr-grow"></i>
+    </a>
+</header>        <aside class="cover animated" style="background-image: url(../content/images/2017/06/macbook-coffee.jpg)">
+    <div class="background-container">
+        <div class="profile">
+            <header id="aside-header" class="nav-header mobile">
+                <a id="aside-close-button" class="open-link right">
+                    <i class="fa fa-close"></i>
+                </a>
+            </header>
+            <div class="profile-logo">
+                <a id="avatar-link" class="open-link" title="Link to homepage for Doruk Gezici | DGtech" href="http://dorukgezici.github.io/#open">
+                    <img src="../content/images/2017/06/pp-1.jpg" alt="Doruk Gezici | DGtech avatar" class="avatar rounded hvr-buzz-out" />
+                </a>
+            </div>
+            <div class="profile-header">
+                <a class="open-link" title="Link to homepage for Doruk Gezici | DGtech" href="http://dorukgezici.github.io/#open">
+                    <h1 class="profile-title">Doruk Gezici | DGtech</h1>
+                </a>
+            </div>
+            <div class="profile-body">
+                <a class="open-link" title="Link to homepage for Doruk Gezici | DGtech" href="http://dorukgezici.github.io/#open">
+                    <h3 id="profile-resume"></h3>
+                </a>
+                <hr class="divider long" />
+                <p>Here, I share about my journey of becoming a full-stack developer and some projects along the way. Some topics are iOS Development, Python...</p>
+                <hr class="divider short" />
+                    <div class="call-to-action-container">
+                        <nav class="navigation">
+    <ul class="links">
+        <li class="nav-blog ">
+            <a class="home-link" href="http://dorukgezici.github.io/#open" title="Doruk Gezici | DGtech blog">Home</a>
+        </li>
+        <li class="nav-about ">
+            <a href="../about/index.html">About</a>
+        </li>
+        <li class="nav-dgmusic ">
+            <a href="http://music.dorukgezici.com">DGmusic</a>
+        </li>
+        <li class="subscribe-button nav-blog hide ">
+            <a class="subscribe-link" href="http://dorukgezici.github.io/#open" title="subscribe">Subscribe</a>
+        </li>
+    </ul>
+</nav>
+
+                    </div>
+            </div>
+            <ul class="social expanded">
+
+    <!-- Facebook -->
+    <li class="social item hvr-grow-rotate">
+        <a rel="me" target="_blank" href="https://www.facebook.com/caffeinecoding" title="Caffeine Coding on Facebook">
+            <i class='fa fa-facebook-official'></i>
+            <span class="label">Facebook</span>
+        </a>
+    </li>
+
+    <!-- Twitter -->
+    <li class="social item hvr-grow-rotate">
+        <a rel="me" target="_blank" href="http://twitter.com/kelyvinN" title="@KelyvinN on Twitter">
+            <i class='fa fa-twitter'></i>
+            <span class="label">Twitter</span>
+        </a>
+    </li>
+
+    <!-- Linkedin -->
+    <li class="social item hvr-grow-rotate">
+        <a rel="me" target="_blank" href="http://linkedin.com/in/kelyvin" title="Kelyvin on LinkedIn">
+            <i class='fa fa-linkedin-square'></i>
+            <span class="label">Linkedin</span>
+        </a>
+    </li>
+
+    <!-- Github -->
+    <li class="social item hvr-grow-rotate">
+        <a rel="me" target="_blank" href="https://github.com/kelyvin" title="Kelyvin on Github">
+            <i class='fa fa-github'></i>
+            <span class="label">Github</span>
+        </a>
+    </li>
+
+    <!-- RSS -->
+    <li class="social item hvr-grow-rotate">
+        <a href="../rss/index.html" title="Subscribe to RSS">
+            <i class='fa fa-rss'></i>
+            <span class="label">RSS</span>
+        </a>
+    </li>
+</ul>
+        </div>
+    </div>
+</aside>
+
+<div class="blog-header">
+    <a title="Link to homepage for Doruk Gezici | DGtech" href="http://dorukgezici.github.io/#open">
+        <h1 class="profile-title hvr-float">Doruk Gezici | DGtech</h1>
+    </a>
+    <nav class="navigation">
+    <ul class="links">
+        <li class="nav-blog ">
+            <a class="home-link" href="http://dorukgezici.github.io/#open" title="Doruk Gezici | DGtech blog">Home</a>
+        </li>
+        <li class="nav-about ">
+            <a href="../about/index.html">About</a>
+        </li>
+        <li class="nav-dgmusic ">
+            <a href="http://music.dorukgezici.com">DGmusic</a>
+        </li>
+        <li class="subscribe-button nav-blog hide ">
+            <a class="subscribe-link" href="http://dorukgezici.github.io/#open" title="subscribe">Subscribe</a>
+        </li>
+    </ul>
+</nav>
+
+</div>        <main class="animated">
+            <section class="content">
+                
+
+  <article class="post tag-icon-generator tag-python tag-xcode">
+    <div class="material-cover animated fade-in" style="background-image: url(http://dorukgezici.com/wp-content/uploads/2016/07/python-logo.png)">
+    <div class="background-container"></div>
+</div>    <div class="post-card animated fade-in">
+        <a id="back-button" href="index.html#open" title="Go back" class="hvr-grow">
+            <div class="back-button">
+                <i class="fa fa-arrow-left"></i>
+            </div>
+        </a>
+        <div class="post-container">
+            <div class="post-header">
+                <div class="meta">
+                    <time datetime="July 18, 2016">a year ago</time>
+                    <span class="tags">in <a href="../tag/icon-generator/index.html">Icon Generator</a> <a href="../tag/python/index.html">Python</a> <a href="../tag/xcode/index.html">Xcode</a></span>
+                    <span class="reading-time"> ~ <span></span> read.</span>
+                </div>
+                <h1 id="post-title">
+                    iOS App Icon Generator Script for Xcode
+                </h1>
+                <div class="share">
+                    <ul class="share-buttons">
+    <li class="hvr-grow-rotate">
+        <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fdorukgezici.github.io%2Fios-app-icon-generator-script%2F&t=iOS%20App%20Icon%20Generator%20Script%20for%20Xcode" target="_blank" title="Share on Facebook">
+            <i class="fa fa-facebook-square"></i>
+        </a>
+    </li>
+    <li class="hvr-grow-rotate">
+        <a href="https://twitter.com/intent/tweet?source=http%3A%2F%2Fdorukgezici.github.io%2Fios-app-icon-generator-script%2F&text=iOS%20App%20Icon%20Generator%20Script%20for%20Xcode:http%3A%2F%2Fdorukgezici.github.io/ios-app-icon-generator-script/" target="_blank" title="Tweet">
+            <i class="fa fa-twitter-square"></i>
+        </a>
+    </li>
+    <li class="hvr-grow-rotate">
+        <a href="https://plus.google.com/share?url=http%3A%2F%2Fdorukgezici.github.io%2Fios-app-icon-generator-script%2F" target="_blank" title="Share on Google+">
+            <i class="fa fa-google-plus-square"></i>
+        </a>
+    </li>
+    <li class="hvr-grow-rotate">
+        <a href="http://www.reddit.com/submit?url=http%3A%2F%2Fdorukgezici.github.io%2Fios-app-icon-generator-script%2F&title=iOS%20App%20Icon%20Generator%20Script%20for%20Xcode" target="_blank" title="Submit to Reddit">
+            <i class="fa fa-reddit-square"></i>
+        </a>
+    </li>
+    <li class="hvr-grow-rotate">
+        <a href="http://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Fdorukgezici.github.io%2Fios-app-icon-generator-script%2F&title=iOS%20App%20Icon%20Generator%20Script%20for%20Xcode&source=http%3A%2F%2Fdorukgezici.github.io%2Fios-app-icon-generator-script%2F" target="_blank" title="Share on LinkedIn">
+            <i class="fa fa-linkedin-square"></i>
+        </a>
+    </li>
+</ul>                </div>
+            </div>
+             <div class="post-content">
+                <p>Hello fellow iOS Developers! Today I decided to stop using <a href="https://makeappicon.com">makeappicon.com</a> to generate my app icons. Instead, I coded a small script in Python which works like a charm. You put the image you want to use as your app icon in the same directory as the script and the script will generate all the resized images you need and put them in the Xcode format “AppIcon.appiconset” folder. The only thing left for you to do is to drag that folder in your Xcode project assests.</p>
+
+<blockquote>
+  <p>Download => <a href="http://dorukgezici.com/download/156/" title="Version 1"> iOSAppIconGenerator.py (61 downloads) </a> <br />
+   On Github: <a href="https://github.com/dorukgezici/iOSAppIconGenerator">iOSAppIconGenerator.git</a></p>
+</blockquote>
+
+<h3 id="howtousemyscript">How to use my script:</h3>
+
+<ul>
+<li>You have to have python 3.x installed. Look at <a href="https://www.python.org">python.org</a> for instructions.</li>
+<li>You need to have the library ‘Pillow’ installed. Just run this in terminal:
+<ul><li><code>pip3 install Pillow</code></li></ul></li>
+<li>Download the script: <a href="http://dorukgezici.com/download/156/" title="Version 1"> iOSAppIconGenerator.py (61 downloads) </a></li>
+<li>The image you want to use must be in the same folder as the script (*.png or *.jpg).</li>
+<li>You have two options for running the script. You can run it with Python Launcher if you installed python from python.org or you can just run it from terminal. So 2 options are:
+<ul><li>Just right click the script and open with Python Launcher. The script will automatically find the image in its current folder and create a new folder within with resized images and a contents.json file.</li>
+<li>Change directory (cd) to the directory you have the script and the picture from terminal and run the script. Keep in mind you might need to type <code>python3 iOSAppIconGenerator.py</code> instead of the below:</li></ul></li>
+</ul>
+
+<pre><code>cd "YOUR PATH WITHOUT QUOTES"  
+python iOSAppIconGenerator.py  
+</code></pre>
+
+<ul>
+<li>Check out here if you don’t know how to use terminal &lt;<a href="http://guides.macrumors.com/Terminal">Terminal Basics</a>>.</li>
+<li>The asset folder is ready! Just drag the created folder in your Xcode project assets. Don’t forget to delete the old empty asset folder named “AppIcon” and rename the new folder to the same name.</li>
+</ul>
+
+<p>Please keep in mind that this is just a 2 hours project and the script has no error handling whatsoever. So if you come across any bugs leave a comment below!</p>
+
+<p>You can peek at the code below:</p>
+
+<pre><code>#!/usr/local/bin/python3
+import os, sys  
+import json from PIL  
+import Image from PIL import ImageFilter 
+
+valid_images = [".jpg",".png"]  
+filename = None  
+for f in os.listdir():  
+  ext = os.path.splitext(f)[1]
+  if ext.lower() in valid_images:
+    filename = f
+    break
+
+print("\n&lt;- iOS Icon Generator Script by DG -&gt;\nPlease make sure the script is in the same folder as the image.")
+
+if filename is None:  
+  sys.exit("Couldn't find an image(.jpg/.png) in the folder. Please try again.")
+
+json_data = { "images":[ { "idiom":"iphone", "size":"29x29", "scale":"1x", "filename":"Icon-App-29x29@1x.png" }, { "idiom":"iphone", "size":"29x29", "scale":"2x", "filename":"Icon-App-29x29@2x.png" }, { "idiom":"iphone", "size":"29x29", "scale":"3x", "filename":"Icon-App-29x29@3x.png" }, { "idiom":"iphone", "size":"40x40", "scale":"1x", "filename":"Icon-App-40x40@1x.png" }, { "idiom":"iphone", "size":"40x40", "scale":"2x", "filename":"Icon-App-40x40@2x.png" }, { "idiom":"iphone", "size":"40x40", "scale":"3x", "filename":"Icon-App-40x40@3x.png" }, { "idiom":"iphone", "size":"60x60", "scale":"1x", "filename":"Icon-App-60x60@1x.png" }, { "idiom":"iphone", "size":"60x60", "scale":"2x", "filename":"Icon-App-60x60@2x.png" }, { "idiom":"iphone", "size":"60x60", "scale":"3x", "filename":"Icon-App-60x60@3x.png" }, { "idiom":"ipad", "size":"29x29", "scale":"1x", "filename":"Icon-App-29x29@1x.png" }, { "idiom":"ipad", "size":"29x29", "scale":"2x", "filename":"Icon-App-29x29@2x.png" }, { "idiom":"ipad", "size":"40x40", "scale":"1x", "filename":"Icon-App-40x40@1x.png" }, { "idiom":"ipad", "size":"40x40", "scale":"2x", "filename":"Icon-App-40x40@2x.png" }, { "idiom":"ipad", "size":"76x76", "scale":"1x", "filename":"Icon-App-76x76@1x.png" }, { "idiom":"ipad", "size":"76x76", "scale":"2x", "filename":"Icon-App-76x76@2x.png" }, { "idiom":"ipad", "size":"76x76", "scale":"3x", "filename":"Icon-App-76x76@3x.png" }, { "idiom":"ipad", "size":"83.5x83.5", "scale":"2x", "filename":"Icon-App-83.5x83.5@2x.png" } ], "info":{ "version":1, "author":"Doruk Gezici" } }
+
+if os.access("AppIcon.appiconset", os.W_OK) == False:  
+  os.mkdir("AppIcon.appiconset")
+  file = open("AppIcon.appiconset/Contents.json", mode="w")
+  json.dump(json_data, file, indent=4, sort_keys=True, separators=(',', ':')) file.close() 
+
+def get_size(image): size_str = image["size"] i = size_str.find("x")  
+  size = (float(size_str[:i]),float(size_str[i+1:]))
+  scale_str = image["scale"]
+  j = scale_str.find("x")
+  scale = int(scale_str[:j])
+  return (scale * int(size[0]), scale * int(size[1]))
+
+with open("AppIcon.appiconset/Contents.json", mode="r") as data_file:  
+  data = json.load(data_file)
+  images = data["images"]
+  try:
+    im = Image.open(filename)
+    print(im.format, im.size, im.mode)
+  except IOError: print("Image not found")
+
+for image in images:  
+  size = get_size(image)
+
+out = im.resize(size, Image.ANTIALIAS)  
+out.save("AppIcon.appiconset/"+image["filename"], format="PNG")  
+</code></pre>
+            </div>
+                <div class='author-credit'>
+        <figure class="author-image">
+            <a class="img" href="../author/dorukgezici/index.html">
+                    <img src="http://www.gravatar.com/avatar/884a72c8060dbd80cf7c5ee907053ed7?s=250&amp;d=mm&amp;r=x" alt="Doruk Gezici's picture" class="avatar rounded" />
+            </a>
+        </figure>
+
+        <div class="author-info">
+            <h4><a href="../author/dorukgezici/index.html" class='author-name'>Doruk Gezici</a></h4>
+                <p>iOS &amp; Software Developer</p>
+            <div class="author-meta">
+                <a href="https://twitter.com/derektraveller">@derektraveller</a>
+            </div>
+        </div>
+    </div>
+            <footer class="comments">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + window.disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</footer>
+        </div>
+    </div>
+    <div class="post-related pagination">
+
+        <a rel="next" id="next-btn" class="btn hvr-grow" href="../orange-pi-armbian-setup/index.html">
+            <span>Setting Up Orange Pi with Armbian</span>
+            <i class="fa fa-arrow-right"></i>
+        </a>
+    <div class="clear"></div>
+</div>  </article>
+
+
+                <footer>
+    <span class="copyright">
+        &copy; 2017 Doruk Gezici | DGtech. All Rights Reserved. | Built with <a href="https://ghost.org/" target="_blank">Ghost</a><br>
+    </span>
+</footer>
+            </section>
+        </main>
+        <aside class="tags-overlay animated">
+    <div class="tags-overlay container">
+        <section id="search-container" class="search-container">
+    <form id="search-form" class="search-form">
+        <input id="search-field" class="search-field" type="text", name="search", placeholder="git, code, javascript,..." />
+    </form>
+    <hr class="divider short" />
+</section>
+<section id="search-results" class="search-results"></section>        
+<div id="popular-tags" class="tags-container">
+    <h2>Popular Tags</h2>
+    <div class="tags">
+    </div>
+</div>    </div>
+</aside>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+<script type="text/javascript" src="https://unpkg.com/imagesloaded@4.1/imagesloaded.pkgd.min.js"></script>
+<script type="text/javascript" src="https://unpkg.com/masonry-layout@4.0/dist/masonry.pkgd.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/scrollreveal.js/3.0.9/scrollreveal.min.js"></script>
+        <script src="../assets/js/caffeine-theme.js?v=520699b0ff" type="text/javascript" charset="utf-8"></script>
+        <script>
+    if (window.ga_id) {
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', window.ga_id, 'auto');
+        ga('require', 'linkid', 'linkid.js');
+        ga('send', 'pageview');
+    }
+</script>
+        <script type="text/javascript">
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + window.disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>    </body>
+</html>

@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:media="http://search.yahoo.com/mrss/"><channel><title><![CDATA[Doruk Gezici | DGtech]]></title><description><![CDATA[Here, I share about my journey of becoming a full-stack developer and some projects along the way. Some topics are iOS Development, Python...]]></description><link>http://dorukgezici.github.io/</link><generator>Ghost 0.11</generator><lastBuildDate>Wed, 14 Jun 2017 12:46:44 GMT</lastBuildDate><atom:link href="http://dorukgezici.github.io/rss/" rel="self" type="application/rss+xml"/><ttl>60</ttl><item><title><![CDATA[How to Setup Python Flask App on Shared Hosting without Root Access]]></title><description><![CDATA[<p>As you might have noticed many shared hosting servers actually have python installed, but configuring the server to create a python web app using a framework and a template engine (like Flask and Jinja2) can become a nightmare since shared hosting accounts don’t have root access.</p>
+
+<p>Lets start by</p>]]></description><link>http://dorukgezici.github.io/python-flask-on-shared-hosting/</link><guid isPermaLink="false">11859c61-91fa-474f-9467-7e968e7fc59a</guid><category><![CDATA[Apache]]></category><category><![CDATA[Flask]]></category><category><![CDATA[Jinja2]]></category><category><![CDATA[Linux]]></category><category><![CDATA[Python]]></category><category><![CDATA[Shared Hosting]]></category><category><![CDATA[Web Server]]></category><dc:creator><![CDATA[Doruk Gezici]]></dc:creator><pubDate>Fri, 26 May 2017 21:15:32 GMT</pubDate><media:content url="http://dorukgezici.com/wp-content/uploads/2017/05/ilovelinux.jpg" medium="image"/><content:encoded><![CDATA[<img src="http://dorukgezici.com/wp-content/uploads/2017/05/ilovelinux.jpg" alt="How to Setup Python Flask App on Shared Hosting without Root Access"><p>As you might have noticed many shared hosting servers actually have python installed, but configuring the server to create a python web app using a framework and a template engine (like Flask and Jinja2) can become a nightmare since shared hosting accounts don’t have root access.</p>
+
+<p>Lets start by telling what you need to actually setup Flask.</p>
+
+<h3 id="requirements">Requirements</h3>
+
+<ul>
+<li>SSH Access to your Web Server  </li>
+<li>Python installed on your web server (Mine had version 2.6)  </li>
+<li>To deploy your Flask App, you need one of these (mod_wsgi, uWSGI, FastCGI and CGI) available on your server. My server had only CGI support, so I will be explaining that one.</li>
+</ul>
+
+<p>That’s it! Notice that the below will be needed but we will manage to install them without root access.  </p>
+
+<ul>
+<li>Pip (Python Package Manager)  </li>
+<li>Flask Library and its dependencies</li>
+</ul>
+
+<h3 id="installation">Installation</h3>
+
+<p>Once you are connected to your server using ssh, you will download a bootstrapping script to install pip without root access. “cd” into your home directory, then enter:</p>
+
+<p><code>wget https://bootstrap.pypa.io/get-pip.py</code></p>
+
+<p><code>python get-pip.py --user</code></p>
+
+<p>We are installing pip to ~/.local/bin by using –user prefix. This way we don’t need root access.</p>
+
+<p>After you installed pip, you will need to add ~/.local/bin to your executables path. Run:</p>
+
+<p><code>export PATH=$PATH:~/.local/bin</code></p>
+
+<p>Or if you don’t want to do this every time you need to use pip, you can create a file named “.bash_profile” in your home directory and put the code above in the file.</p>
+
+<p>Now you have pip and you can access it just by calling it in your terminal! As the next step, we will install Flask and its dependencies by running:</p>
+
+<p><code>pip install --user flask</code></p>
+
+<p>Now you have everything you need to run Flask. I will also give a simple Flask app example, but if you want to improve yourself I recommend reading the documentations for <a href="http://flask.pocoo.org/docs/0.12/">Flask</a> and <a href="http://jinja.pocoo.org/docs/2.9/templates/">Jinja2</a>.</p>
+
+<p>First, create your Flask application, save this file as ‘myapp.py’ in your public_html folder:</p>
+
+<pre><code>from flask import Flask, render_template  
+app = Flask(__name__)
+
+@app.route('/')
+def home():  
+  return render_template('home.html')
+
+if __name__ == '__main__':  
+  app.run()
+</code></pre>
+
+<p>I will also show 2 basic template files to give you and idea about Python template engine Jinja2. You need to create a folder called ‘templates’ (name is important) in your public_html folder. Save this one as ‘home.html’ in that folder:</p>
+
+<pre><code>{% extends "layout.html" %}
+{% block content %}
+&lt;div&gt;  
+  &lt;h1&gt;Python Web Server&lt;/h1&gt;
+  &lt;h2&gt;Using Flask and Jinja2&lt;/h2&gt;
+&lt;/div&gt;  
+{% endblock %}
+</code></pre>
+
+<p>And this one as ‘layout.html’ in the templates folder:</p>
+
+<pre><code class="language-   ">&lt;meta charset="utf-8"&gt;  
+&lt;title&gt;{% block title %}DGtech - Flask App{% endblock %}&lt;/title&gt;  
+{% block head %}{% endblock %}
+{% block content %}{% endblock %}  
+</code></pre>
+
+<p>Now we will create a .cgi file. Since my server has only CGI support, I will use CGI to deploy my Flask App. You need to replace <your path=""> with the full path of your python site-packages folder. It is something like ‘xxx/.local/lib/python2.6/site-packages’. Save this file as ‘main.cgi’ in your public_html folder:</your></p>
+
+<pre><code>#!/usr/bin/python
+import sys  
+sys.path.insert(0, '&lt;YOUR PATH&gt;')
+
+from wsgiref.handlers import CGIHandler  
+from myapp import app
+
+CGIHandler().run(app)  
+</code></pre>
+
+<p>Now to the last part! We need to create or edit the .htaccess file. You are going to need to replace the full path of your main.cgi file with <your path="">.  ‘/$1 [L]’ needs to stay. It is something like ‘/xxx/public_html/main.cgi’:</your></p>
+
+<pre><code>RewriteEngine On  
+RewriteCond %{REQUEST_FILENAME} !-f  
+RewriteRule ^(.*)$ &lt;YOUR PATH&gt;/$1 [L]  
+</code></pre>
+
+<p>Voula! Try to go to your domain and see for yourself. One quick tip, if you get an internal error 500 it is probably about your python code. If you get error 404 your .htaccess might not be working properly.</p>
+
+<p>Happy Hacking!</p>]]></content:encoded></item><item><title><![CDATA[Setting Up Orange Pi with Armbian]]></title><description><![CDATA[<p>Hey there the mighty maker! Last week I bought an “<strong>Orange Pi PC Plus</strong>” for 20$ from aliexpress, and I have to admit it was a little bit challenging setting it up properly. But don’t be afraid to purchase one of these cheap yet powerful SoC’s. I will</p>]]></description><link>http://dorukgezici.github.io/orange-pi-armbian-setup/</link><guid isPermaLink="false">8b9438f3-ce67-48e1-9e05-f55e97af8a90</guid><category><![CDATA[Armbian]]></category><category><![CDATA[IoT]]></category><category><![CDATA[Maker]]></category><category><![CDATA[Orange Pi]]></category><category><![CDATA[Orange Pi PC Plus]]></category><category><![CDATA[Raspberry Pi]]></category><dc:creator><![CDATA[Doruk Gezici]]></dc:creator><pubDate>Sun, 13 Nov 2016 02:41:26 GMT</pubDate><media:content url="http://dorukgezici.com/wp-content/uploads/2016/11/orange-pi.jpg" medium="image"/><content:encoded><![CDATA[<img src="http://dorukgezici.com/wp-content/uploads/2016/11/orange-pi.jpg" alt="Setting Up Orange Pi with Armbian"><p>Hey there the mighty maker! Last week I bought an “<strong>Orange Pi PC Plus</strong>” for 20$ from aliexpress, and I have to admit it was a little bit challenging setting it up properly. But don’t be afraid to purchase one of these cheap yet powerful SoC’s. I will show the way so you won’t have to give in hours of “How the heck will this work?”.</p>
+
+<blockquote>
+  <p>1st Important Note : The official website (orangepi.org) is full of down links and outdated stuff. The manufacturers clearly don’t support the software enough like it was advertised.</p>
+</blockquote>
+
+<p>I have tried several Linux distributions and the one that worked best for me was <strong>Armbian</strong>. You can download the image from <a href="https://www.armbian.com/download/">this page</a>, finding your own Orange Pi model. Keep in mind that if you want a graphical interface you should download the Desktop Version, if you just need terminal than Server Version is there too. Don’t forget to uncompress your download.</p>
+
+<blockquote>
+  <p>If you connect the board to a monitor and boot it up you will see that it comes with Android 4.4 installed to the flash storage. But we wanna use this board as a Raspberry Pi, so we will just install our Armbian image with an SD Card bigger than 4GB. (Maybe less is enough?)</p>
+</blockquote>
+
+<p>Because I am on a Mac, I will use the UNIX tool “dd” to write the Armbian image to my SD card. You can read <a href="http://www.howtogeek.com/191054/how-to-create-bootable-usb-drives-and-sd-cards-for-every-operating-system/">this page</a> to figure out this step for every OS.</p>
+
+<p>When your bootable SD card is ready, insert it in and power the board. First boot takes around 3 minutes then it reboots and you will have to wait another one minute to login. This delay exists because system updates package list and creates 128Mb emergency SWAP on the SD card.</p>
+
+<blockquote>
+  <p>After you boot up Armbian, you can login with username <strong>root</strong> and password <strong>1234</strong>. You will need to change the root password and create a new user which you will use from now on.</p>
+</blockquote>
+
+<p>Once you are logged in, you should run some commands:</p>
+
+<p><code>sudo apt-get install lightdm</code></p>
+
+<p>If you get errors when trying to install “lightdm”, you should first do:</p>
+
+<p><code>sudo apt-get purge lightdm</code></p>
+
+<p>Then reboot, then try to install “lightdm” again.</p>
+
+<blockquote>
+  <p>If you want you can keep booting Armbian from the SD card, but for a faster and smoother experience, I also installed Armbian on my board’s 8GB flash storage.</p>
+</blockquote>
+
+<p>To install Armbian on your eMMC, you need to run:</p>
+
+<p><code>sudo nand-sata-install</code></p>
+
+<p>Here is a note for this process from Armbian:</p>
+
+<blockquote>
+  <p>On Allwinner devices after switching to boot from NAND or eMMC clearing the boot loader signature on the SD card is recommended: <code>dd if=/dev/zero of=/dev/mmcblkN bs=1024 seek=8 count=1</code> (replace <code>/dev/mmcblkN</code> with the correct device node – in case you run this directly after <code>nand-sata-install</code> without a reboot in between then it’s <code>/dev/mmcblk0</code>). When booting from eMMC to get SD cards auto-detected on Allwinner legacy images please consider changing <code>mmc0</code>‘s <code>sdc_detmode</code> from 3 to 1 in the board’s fex file (see <a href="http://forum.armbian.com/index.php/topic/1702-orange-pi-plus-2e-where-is-16ghz-and-sd/?p=13163">here</a> for details).</p>
+</blockquote>
+
+<p>Aaand that’s it, you have a working Linux machine for just 20$! On my next post I will cover setting up WiFi, WiringPi C library and WiringPi-Python wrapper-library to start playing with those GPIO pins. Leave a comment below!</p>]]></content:encoded></item><item><title><![CDATA[iOS App Icon Generator Script for Xcode]]></title><description><![CDATA[<p>Hello fellow iOS Developers! Today I decided to stop using <a href="https://makeappicon.com">makeappicon.com</a> to generate my app icons. Instead, I coded a small script in Python which works like a charm. You put the image you want to use as your app icon in the same directory as the script and</p>]]></description><link>http://dorukgezici.github.io/ios-app-icon-generator-script/</link><guid isPermaLink="false">ec6ae4a8-1e4d-4dd8-ad1c-800d9e4b6e40</guid><category><![CDATA[Icon Generator]]></category><category><![CDATA[Python]]></category><category><![CDATA[Xcode]]></category><dc:creator><![CDATA[Doruk Gezici]]></dc:creator><pubDate>Sun, 17 Jul 2016 23:55:26 GMT</pubDate><media:content url="http://dorukgezici.com/wp-content/uploads/2016/07/python-logo.png" medium="image"/><content:encoded><![CDATA[<img src="http://dorukgezici.com/wp-content/uploads/2016/07/python-logo.png" alt="iOS App Icon Generator Script for Xcode"><p>Hello fellow iOS Developers! Today I decided to stop using <a href="https://makeappicon.com">makeappicon.com</a> to generate my app icons. Instead, I coded a small script in Python which works like a charm. You put the image you want to use as your app icon in the same directory as the script and the script will generate all the resized images you need and put them in the Xcode format “AppIcon.appiconset” folder. The only thing left for you to do is to drag that folder in your Xcode project assests.</p>
+
+<blockquote>
+  <p>Download => <a href="http://dorukgezici.com/download/156/" title="Version 1"> iOSAppIconGenerator.py (61 downloads) </a> <br>
+   On Github: <a href="https://github.com/dorukgezici/iOSAppIconGenerator">iOSAppIconGenerator.git</a></p>
+</blockquote>
+
+<h3 id="howtousemyscript">How to use my script:</h3>
+
+<ul>
+<li>You have to have python 3.x installed. Look at <a href="https://www.python.org">python.org</a> for instructions.</li>
+<li>You need to have the library ‘Pillow’ installed. Just run this in terminal:
+<ul><li><code>pip3 install Pillow</code></li></ul></li>
+<li>Download the script: <a href="http://dorukgezici.com/download/156/" title="Version 1"> iOSAppIconGenerator.py (61 downloads) </a></li>
+<li>The image you want to use must be in the same folder as the script (*.png or *.jpg).</li>
+<li>You have two options for running the script. You can run it with Python Launcher if you installed python from python.org or you can just run it from terminal. So 2 options are:
+<ul><li>Just right click the script and open with Python Launcher. The script will automatically find the image in its current folder and create a new folder within with resized images and a contents.json file.</li>
+<li>Change directory (cd) to the directory you have the script and the picture from terminal and run the script. Keep in mind you might need to type <code>python3 iOSAppIconGenerator.py</code> instead of the below:</li></ul></li>
+</ul>
+
+<pre><code>cd "YOUR PATH WITHOUT QUOTES"  
+python iOSAppIconGenerator.py  
+</code></pre>
+
+<ul>
+<li>Check out here if you don’t know how to use terminal &lt;<a href="http://guides.macrumors.com/Terminal">Terminal Basics</a>>.</li>
+<li>The asset folder is ready! Just drag the created folder in your Xcode project assets. Don’t forget to delete the old empty asset folder named “AppIcon” and rename the new folder to the same name.</li>
+</ul>
+
+<p>Please keep in mind that this is just a 2 hours project and the script has no error handling whatsoever. So if you come across any bugs leave a comment below!</p>
+
+<p>You can peek at the code below:</p>
+
+<pre><code>#!/usr/local/bin/python3
+import os, sys  
+import json from PIL  
+import Image from PIL import ImageFilter 
+
+valid_images = [".jpg",".png"]  
+filename = None  
+for f in os.listdir():  
+  ext = os.path.splitext(f)[1]
+  if ext.lower() in valid_images:
+    filename = f
+    break
+
+print("\n&lt;- iOS Icon Generator Script by DG -&gt;\nPlease make sure the script is in the same folder as the image.")
+
+if filename is None:  
+  sys.exit("Couldn't find an image(.jpg/.png) in the folder. Please try again.")
+
+json_data = { "images":[ { "idiom":"iphone", "size":"29x29", "scale":"1x", "filename":"Icon-App-29x29@1x.png" }, { "idiom":"iphone", "size":"29x29", "scale":"2x", "filename":"Icon-App-29x29@2x.png" }, { "idiom":"iphone", "size":"29x29", "scale":"3x", "filename":"Icon-App-29x29@3x.png" }, { "idiom":"iphone", "size":"40x40", "scale":"1x", "filename":"Icon-App-40x40@1x.png" }, { "idiom":"iphone", "size":"40x40", "scale":"2x", "filename":"Icon-App-40x40@2x.png" }, { "idiom":"iphone", "size":"40x40", "scale":"3x", "filename":"Icon-App-40x40@3x.png" }, { "idiom":"iphone", "size":"60x60", "scale":"1x", "filename":"Icon-App-60x60@1x.png" }, { "idiom":"iphone", "size":"60x60", "scale":"2x", "filename":"Icon-App-60x60@2x.png" }, { "idiom":"iphone", "size":"60x60", "scale":"3x", "filename":"Icon-App-60x60@3x.png" }, { "idiom":"ipad", "size":"29x29", "scale":"1x", "filename":"Icon-App-29x29@1x.png" }, { "idiom":"ipad", "size":"29x29", "scale":"2x", "filename":"Icon-App-29x29@2x.png" }, { "idiom":"ipad", "size":"40x40", "scale":"1x", "filename":"Icon-App-40x40@1x.png" }, { "idiom":"ipad", "size":"40x40", "scale":"2x", "filename":"Icon-App-40x40@2x.png" }, { "idiom":"ipad", "size":"76x76", "scale":"1x", "filename":"Icon-App-76x76@1x.png" }, { "idiom":"ipad", "size":"76x76", "scale":"2x", "filename":"Icon-App-76x76@2x.png" }, { "idiom":"ipad", "size":"76x76", "scale":"3x", "filename":"Icon-App-76x76@3x.png" }, { "idiom":"ipad", "size":"83.5x83.5", "scale":"2x", "filename":"Icon-App-83.5x83.5@2x.png" } ], "info":{ "version":1, "author":"Doruk Gezici" } }
+
+if os.access("AppIcon.appiconset", os.W_OK) == False:  
+  os.mkdir("AppIcon.appiconset")
+  file = open("AppIcon.appiconset/Contents.json", mode="w")
+  json.dump(json_data, file, indent=4, sort_keys=True, separators=(',', ':')) file.close() 
+
+def get_size(image): size_str = image["size"] i = size_str.find("x")  
+  size = (float(size_str[:i]),float(size_str[i+1:]))
+  scale_str = image["scale"]
+  j = scale_str.find("x")
+  scale = int(scale_str[:j])
+  return (scale * int(size[0]), scale * int(size[1]))
+
+with open("AppIcon.appiconset/Contents.json", mode="r") as data_file:  
+  data = json.load(data_file)
+  images = data["images"]
+  try:
+    im = Image.open(filename)
+    print(im.format, im.size, im.mode)
+  except IOError: print("Image not found")
+
+for image in images:  
+  size = get_size(image)
+
+out = im.resize(size, Image.ANTIALIAS)  
+out.save("AppIcon.appiconset/"+image["filename"], format="PNG")  
+</code></pre>]]></content:encoded></item></channel></rss>
